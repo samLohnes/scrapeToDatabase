@@ -1,10 +1,14 @@
 # This is the main file that will be used to run the final scraping into a dataBase function
 
-from playersScraping.scrapeToCSV import scrapeTeamsFromSite as teamScrape
+from playersScraping.scrapeToCSV import scrapeTeamsFromSite as PLteamScrape
+from playersScraping.scrapeToCSV import scrapePlayersFromSite as ScrapePlayers
 
 def main():
-    # Use a breakpoint in the code line below to debug your script.
-    teamScrape()
+    PLteamScrape()
+    allPlayers = ScrapePlayers()
+    allPlayers.to_csv('allPlayers.csv')
+    print(allPlayers)
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
