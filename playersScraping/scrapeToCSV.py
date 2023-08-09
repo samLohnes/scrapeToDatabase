@@ -21,6 +21,8 @@ def scrapePlayersFromSite():
     # Loop goes through the urls and grabs the information from them,
     # uses the length of dataFrames to determine which state of cleanTeamStats
     # to use
+    # end state of the loop is to have a list of dataFrames that can then be concatenated
+    # together to have a list of all of the players in the premier league
     dataFrames = []
     for i in urls:
         currTeam = i.split('/')[-1].replace('-Stats','').replace('-',' ')
