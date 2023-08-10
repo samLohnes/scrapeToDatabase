@@ -14,6 +14,9 @@ def scrapeTeamsFromSite():
     process.start()
 
 def scrapePlayersFromSite():
+    # Input: None -> in the future may need to create a functionality to input a url or list of urls to
+    # allow for a listing of leagues to be grabbed
+    # Output: Pandas DataFrame
 
     # Reads in the team links csv file that the Scrapy Spider scraped into a dataframe
     urls = pd.read_csv('PLTeamLinks.csv')['Link to Team Page'].tolist()
@@ -25,7 +28,12 @@ def scrapePlayersFromSite():
     # together to have a list of all the players in the premier league
     dataFrames = []
     for i in urls:
+        # Takes the current team out of the url based on the FBRef standard format for urls, and has
+        # functionality to remove hyphens and replace them with spaces
         currTeam = i.split('/')[-1].replace('-Stats','').replace('-',' ')
+        # Reads in the table from the pandas read_html, cleans it using the cleanTeamStats method,
+        # Then drops the extra header level, and then adds a new column to represent the current team that
+        # was grabbed in the line above
         temp = pd.read_html(i)[0]
         temp = cleanTeamStats(temp, initialTeam=len(dataFrames))
         temp = temp.droplevel(0, axis=1)
@@ -37,6 +45,7 @@ def scrapePlayersFromSite():
 
     df = pd.concat(dataFrames, ignore_index=True)
     df = df.drop(['Matches', 'MP'], axis=1)
+    # Uses the replaceNations function, and then the dataframe has been fully cleaned so it is returned to main
     return replaceNations(df)
 
 
